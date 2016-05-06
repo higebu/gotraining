@@ -1,4 +1,4 @@
-package main
+package mattermost
 
 import (
 	"fmt"
@@ -15,12 +15,14 @@ func TestSend(t *testing.T) {
 	}))
 	defer server.Close()
 
+	m, err := New(server.URL)
+
 	p := Payload{
 		IconURL:  "http://example.com/image/icon",
 		Username: "user",
 		Text:     "test",
 	}
-	err := Send(server.URL, p)
+	err = m.Send(p)
 	if err != nil {
 		t.Error(err)
 	}

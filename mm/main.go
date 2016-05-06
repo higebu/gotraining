@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"github.com/higebu/gotraining/mm/mattermost"
 )
 
 func main() {
@@ -16,12 +18,20 @@ func main() {
 		flag.PrintDefaults()
 		os.Exit(0)
 	}
-	p := Payload{
+
+	m, err := mattermost.New(*url)
+	if err != nil {
+		fmt.Println(err)
+		flag.PrintDefaults()
+		os.Exit(0)
+	}
+
+	p := mattermost.Payload{
 		IconURL:  *iconURL,
 		Username: *username,
 		Text:     *text,
 	}
-	err := Send(*url, p)
+	err = m.Send(p)
 	if err != nil {
 		fmt.Println(err)
 	}
